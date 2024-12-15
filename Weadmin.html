@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE Game Interface</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --bg-dark: #121212;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        .animated-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 15vw;
+            font-weight: bold;
+            display: flex;
+            z-index: 10;
+        }
+
+        .animated-logo span {
+            display: inline-block;
+            opacity: 0;
+            animation: logoReveal 2s ease-in-out infinite;
+        }
+
+        .animated-logo span:first-child {
+            animation-delay: 0s;
+            color: var(--primary-color);
+        }
+
+        .animated-logo span:last-child {
+            animation-delay: 1s;
+            color: var(--secondary-color);
+        }
+
+        @keyframes logoReveal {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 20;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .team-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .team-name {
+            margin-right: 20px;
+            color: var(--text-color);
+        }
+
+        .score {
+            font-size: 20px;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .sliding-banner {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            padding: 10px 0;
+            text-align: center;
+            overflow: hidden;
+            z-index: 15;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .banner-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: slideBanner 20s linear infinite;
+        }
+
+        @keyframes slideBanner {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .vertical-nav {
+            position: fixed;
+            left: 20px;
+            top: 120px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            z-index: 30;
+            gap: 10px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-icon i {
+            font-size: 18px;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .overlay-container {
+            position: fixed;
+            top: 120px;
+            left: 120px;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: none;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            z-index: 25;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .overlay-container.active {
+            display: flex;
+        }
+
+        .profile-content {
+            width: 80%;
+            margin: auto;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .profile-heading {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .profile-details {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            margin-right: 20px;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .profile-actions {
+            margin-top: 20px;
+        }
+
+        .profile-actions .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .profile-actions .btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+            animation: fadeInOut 3s ease;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            20%, 80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated WE Logo -->
+    <div class="animated-logo">
+        <span>W</span><span>E</span>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">WE Game</div>
+        <div class="team-section">
+            <div class="team-name">Sara & Teddy</div>
+            <div class="score">Score: 6337</div>
+        </div>
+    </header>
+
+    <!-- Sliding Banner -->
+    <div class="sliding-banner">
+        <div class="banner-content">
+            Welcome to the Ultimate Couples Gaming Experience Designed to Push Boundaries and Promote Relationship Growth! Get ready for an epic adventure! 🎮✨
+        </div>
+    </div>
+
+    <!-- Vertical Navigation -->
+    <nav class="vertical-nav">
+        <div class="nav-icon game-nav" data-overlay="game" aria-label="Game Section">
+            <i class="fas fa-gamepad"></i>
+        </div>
+        <div class="nav-icon profile-nav" data-overlay="profile" aria-label="Profile Section">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="nav-icon leaderboard-nav" data-overlay="leaderboard" aria-label="Leaderboard Section">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="nav-icon settings-nav" data-overlay="settings" aria-label="Settings Section">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="nav-icon dice-nav" data-overlay="dice" aria-label="Dice Section">
+            <i class="fas fa-dice"></i>
+        </div>
+    </nav>
+
+    <!-- Overlay Containers -->
+    <div id="game-overlay" class="overlay-container game">Game Section</div>
+    <div id="profile-overlay" class="overlay-container profile">
+        <div class="profile-content">
+            <h2 class="profile-heading">Your Profile</h2>
+            <div class="profile-details">
+                <div class="profile-picture">
+                    <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-img">
+                </div>
+                <div class="profile-info">
+                    <p><strong>Username:</strong> Gamer123</p>
+                    <p><strong>Email:</strong> gamer123@example.com</p>
+                    <p><strong>Games Played:</strong> 45</p>
+                    <p><strong>Achievements:</strong> 10 Trophies</p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn edit-profile">Edit Profile</button>
+                <button class="btn logout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Message -->
+    <div class="toast" id="toast">Action Completed!</div>
+
+    <script>
+        // Admin panel toggles
+        document.querySelectorAll('.nav-icon').forEach(icon => {
+            icon.addEventListener('click', () => {
+                const overlayId = icon.getAttribute('data-overlay');
+                document.getElementById(`${overlayId}-overlay`).classList.toggle('active');
+            });
+        });
+
+        // Display toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
