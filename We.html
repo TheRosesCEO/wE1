@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE Game Interface</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --bg-dark: #121212;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        /* Animated WE Logo */
+        .animated-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 15vw;
+            font-weight: bold;
+            display: flex;
+            z-index: 10;
+        }
+
+        .animated-logo span {
+            display: inline-block;
+            opacity: 0;
+            animation: logoReveal 2s ease-in-out infinite;
+        }
+
+        .animated-logo span:first-child {
+            animation-delay: 0s;
+            color: var(--primary-color);
+        }
+
+        .animated-logo span:last-child {
+            animation-delay: 1s;
+            color: var(--secondary-color);
+        }
+
+        @keyframes logoReveal {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 20;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .team-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .team-name {
+            margin-right: 20px;
+            color: var(--text-color);
+        }
+
+        .score {
+            font-size: 20px;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        /* Sliding Banner */
+        .sliding-banner {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            padding: 10px 0;
+            text-align: center;
+            overflow: hidden;
+            z-index: 15;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .banner-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: slideBanner 20s linear infinite;
+        }
+
+        @keyframes slideBanner {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Vertical Navigation */
+        .vertical-nav {
+            position: fixed;
+            left: 20px;
+            top: 120px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            z-index: 30;
+            gap: 10px;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-icon i {
+            font-size: 18px;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Overlay Containers */
+        .overlay-container {
+            position: fixed;
+            top: 120px;
+            left: 120px;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: none;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            z-index: 25;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .overlay-container.active {
+            display: flex;
+        }
+      .overlay-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.overlay-container.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+        /* Specific Overlay Styles */
+        .overlay-container.game { background: linear-gradient(135deg, #ff6b6b, #4ecdc4); }
+        .overlay-container.profile { background: linear-gradient(135deg, #845ec2, #ff6f91); }
+        .overlay-container.leaderboard { background: linear-gradient(135deg, #ffc75f, #ff9671); }
+        .overlay-container.settings { background: linear-gradient(135deg, #00d2fc, #2a4b8d); }
+        .overlay-container.dice { background: linear-gradient(135deg, #45f882, #1aa7ec); }
+
+        /* Prompt Container */
+        .prompt-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--text-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            z-index: 50; /* Highest Z-index */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .prompt-container.hidden {
+            opacity: 0;
+            transform: translate(-50%, 50px);
+            pointer-events: none;
+        }
+
+        .prompt-container.visible {
+            opacity: 1;
+            transform: translateX(-50%);
+        }
+      /* Profile Section */
+.profile-content {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.profile-heading {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.profile-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    margin-right: 20px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+}
+
+.profile-info {
+    text-align: left;
+}
+
+.profile-actions {
+    margin-top: 20px;
+}
+
+.profile-actions .btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.profile-actions .btn:hover {
+    background: var(--secondary-color);
+}
+/* Leaderboard Section */
+.leaderboard-content {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.leaderboard-heading {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.leaderboard-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard-rank {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.leaderboard-username,
+.leaderboard-score {
+    color: var(--text-color);
+}
+
+.refresh-leaderboard {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.refresh-leaderboard:hover {
+    background: var(--secondary-color);
+}
+/* Settings Section */
+.settings-content {
+    width: 60%;
+    margin: auto;
+    color: var(--text-color);
+}
+
+.settings-heading {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.settings-form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.settings-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.settings-actions .btn {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.settings-actions .btn:hover {
+    background: var(--secondary-color);
+}
+      .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+}
+.toast.show {
+    display: block;
+    animation: fadeInOut 3s ease;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px); }
+    20%, 80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(20px); }
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Animated WE Logo -->
+    <div class="animated-logo">
+        <span>W</span><span>E</span>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">WE Game</div>
+        <div class="team-section">
+            <div class="team-name">Sara & Teddy</div>
+            <div class="score">Score: 6337</div>
+        </div>
+    </header>
+
+    <!-- Sliding Banner -->
+    <div class="sliding-banner">
+        <div class="banner-content">
+            Welcome to the Ultimate Couples Gaming Experience Designed to Push Boundaries and Promote Relationship Growth! Get ready for an epic adventure! 🎮✨
+        </div>
+    
+
+    <!-- Vertical Navigation -->
+    <nav class="vertical-nav">
+        <div class="nav-icon game-nav" data-overlay="game"aria-label="Game Section">
+            <i class="fas fa-gamepad"></i>
+        </div>
+        <div class="nav-icon profile-nav" data-overlay="profile"aria-label="Game Section">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="nav-icon leaderboard-nav" data-overlay="leaderboard"aria-label="Game Section">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="nav-icon settings-nav" data-overlay="settings"aria-label="Game Section">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="nav-icon dice-nav" data-overlay="dice"aria-label="Game Section">
+            <i class="fas fa-dice"></i>
+        </div>
+    </nav>
+
+    <!-- Overlay Containers -->
+    <div id="game-overlay" class="overlay-container game">Game Section</div>
+ <!-- Profile Section -->
+<div id="profile-overlay" class="overlay-container profile">
+    <div class="profile-content">
+        <h2 class="profile-heading">Your Profile</h2>
+        <div class="profile-details">
+            <div class="profile-picture">
+                <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-img">
+            </div>
+            <div class="profile-info">
+                <p><strong>Username:</strong> Gamer123</p>
+                <p><strong>Email:</strong> gamer123@example.com</p>
+                <p><strong>Games Played:</strong> 45</p>
+                <p><strong>Achievements:</strong> 10 Trophies</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <button class="btn edit-profile">Edit Profile</button>
+            <button class="btn logout">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- Leaderboard Section -->
+<div id="leaderboard-overlay" class="overlay-container leaderboard">
+    <div class="leaderboard-content">
+        <h2 class="leaderboard-heading">Leaderboard</h2>
+        <ul class="leaderboard-list">
+            <li class="leaderboard-item">
+                <span class="leaderboard-rank">1.</span>
+                <span class="leaderboard-username">PlayerOne</span>
+                <span class="leaderboard-score">9450</span>
+            </li>
+            <li class="leaderboard-item">
+                <span class="leaderboard-rank">2.</span>
+                <span class="leaderboard-username">ChampionX</span>
+                <span class="leaderboard-score">8920</span>
+            </li>
+            <li class="leaderboard-item">
+                <span class="leaderboard-rank">3.</span>
+                <span class="leaderboard-username">QuickSilver</span>
+                <span class="leaderboard-score">8770</span>
+            </li>
+            <!-- Additional Players -->
+        </ul>
+        <button class="btn refresh-leaderboard">Refresh</button>
+    </div>
+</div>
+
+<!-- Settings Section -->
+<div id="settings-overlay" class="overlay-container settings">
+    <div class="settings-content">
+        <h2 class="settings-heading">Settings</h2>
+        <form class="settings-form">
+            <div class="form-group">
+                <label for="sound-toggle">Sound</label>
+                <input type="checkbox" id="sound-toggle" checked>
+            </div>
+            <div class="form-group">
+                <label for="notifications-toggle">Notifications</label>
+                <input type="checkbox" id="notifications-toggle" checked>
+            </div>
+            <div class="form-group">
+                <label for="difficulty-level">Difficulty</label>
+                <select id="difficulty-level">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="settings-actions">
+                <button type="submit" class="btn save-settings">Save Settings</button>
+                <button type="reset" class="btn reset-settings">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Floating Prompt -->
+    <div id="game-prompt" class="prompt-container hidden">
+        <p id="prompt-text"></p>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    // Variables for navigation, overlays, and floating prompt
+    const navIcons = document.querySelectorAll('.nav-icon');
+    const overlays = document.querySelectorAll('.overlay-container');
+    const animatedLogo = document.querySelector('.animated-logo');
+    const promptContainer = document.getElementById('game-prompt');
+    const promptText = document.getElementById('prompt-text');
+
+    // Global game state
+    const gameState = {
+        score: 6337,
+        level: 1,
+        settings: {
+            sound: true,
+            notifications: true,
+            difficulty: 'medium',
+        },
+    };
+
+    // Prompt messages by game level
+    const promptMessages = {
+        level1: ["Find the hidden key! 🗝️", "Avoid the traps! ⚠️"],
+        level2: ["Cooperate to open the door! 🔑", "Defeat the boss together! 🐉"],
+    };
+
+    // Dynamic prompt generator
+    function getDynamicPrompt() {
+        const levelPrompts = promptMessages[`level${gameState.level}`] || [];
+        return levelPrompts[Math.floor(Math.random() * levelPrompts.length)] || "Explore and have fun!";
+    }
+
+    // Floating prompt system
+    function showDynamicPrompt() {
+        promptText.textContent = getDynamicPrompt();
+        promptContainer.classList.remove('hidden');
+        promptContainer.classList.add('visible');
+
+        // Hide the prompt after 4 seconds
+        setTimeout(() => {
+            promptContainer.classList.remove('visible');
+            promptContainer.classList.add('hidden');
+        }, 4000);
+    }
+
+    // Cycle through prompts every 6 seconds
+    setInterval(showDynamicPrompt, 6000);
+
+    // Overlay visibility toggle
+    navIcons.forEach((icon) => {
+        icon.setAttribute('tabindex', '0'); // Make icons focusable for keyboard users
+        icon.addEventListener('click', () => {
+            const overlayId = `${icon.dataset.overlay}-overlay`;
+            const targetOverlay = document.getElementById(overlayId);
+
+            // Hide all overlays and show the clicked one
+            overlays.forEach((overlay) => overlay.classList.remove('active'));
+            targetOverlay.classList.add('active');
+
+            // Hide the animated logo
+            animatedLogo.style.display = 'none';
+        });
+
+        // Enable keyboard navigation
+        icon.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                icon.click();
+            }
+        });
+    });
+
+    // Reset overlays when clicking the logo
+    animatedLogo.addEventListener('click', () => {
+        overlays.forEach((overlay) => overlay.classList.remove('active'));
+        animatedLogo.style.display = 'flex';
+    });
+
+    // Leaderboard: Refresh and sorting
+    const refreshButton = document.querySelector('.refresh-leaderboard');
+    const leaderboardList = document.querySelector('.leaderboard-list');
+
+    function sortLeaderboard() {
+        const leaderboardItems = [...document.querySelectorAll('.leaderboard-item')];
+        leaderboardItems.sort((a, b) => {
+            const scoreA = parseInt(a.querySelector('.leaderboard-score').textContent, 10);
+            const scoreB = parseInt(b.querySelector('.leaderboard-score').textContent, 10);
+            return scoreB - scoreA; // Descending order
+        });
+
+        leaderboardList.innerHTML = ''; // Clear current list
+        leaderboardItems.forEach((item) => leaderboardList.appendChild(item));
+    }
+
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => {
+            alert("Refreshing Leaderboard...");
+            // Simulate adding a new entry
+            const newPlayer = document.createElement('li');
+            newPlayer.classList.add('leaderboard-item');
+            newPlayer.innerHTML = `
+                <span class="leaderboard-rank">New</span>
+                <span class="leaderboard-username">RookiePlayer</span>
+                <span class="leaderboard-score">${Math.floor(Math.random() * 10000)}</span>
+            `;
+            leaderboardList.appendChild(newPlayer);
+
+            // Sort leaderboard after adding a new player
+            sortLeaderboard();
+        });
+    }
+
+    // Profile: Edit profile and logout actions
+    const editProfileButton = document.querySelector('.edit-profile');
+    const logoutButton = document.querySelector('.logout');
+
+    if (editProfileButton) {
+        editProfileButton.addEventListener('click', () => {
+            alert("Edit Profile functionality coming soon!");
+        });
+    }
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            if (confirm("Are you sure you want to logout?")) {
+                alert("You have been logged out.");
+            }
+        });
+    }
+
+    // Settings: Save and reset actions
+    const settingsForm = document.querySelector('.settings-form');
+
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            // Update game state with new settings
+            const sound = document.getElementById('sound-toggle').checked;
+            const notifications = document.getElementById('notifications-toggle').checked;
+            const difficulty = document.getElementById('difficulty-level').value;
+
+            gameState.settings = { sound, notifications, difficulty };
+
+            showToast("Settings saved successfully!");
+        });
+
+        settingsForm.addEventListener('reset', () => {
+            showToast("Settings reset to defaults!");
+        });
+    }
+
+    // Toast notification system
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        toast.classList.add('show');
+        setTimeout(() => toast.remove(), 3000); // Remove toast after 3 seconds
+    }
+});
+
+    </script>
+</body>
+</html>
