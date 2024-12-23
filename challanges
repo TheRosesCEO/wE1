@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamified Trophy Room</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .trophy-room .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h2 {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      font-size: 24px;
+      color: #ffd700;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 10px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .bg-purple {
+      background: linear-gradient(to right, purple, blue);
+    }
+
+    .bg-yellow {
+      background: linear-gradient(to right, yellow, orange);
+    }
+
+    .bg-red {
+      background: linear-gradient(to right, red, purple);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .achievements {
+      display: flex;
+      gap: 5px;
+    }
+
+    .achievement {
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.3);
+      padding: 5px;
+      border-radius: 50%;
+    }
+
+    .card-content .details {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      position: relative;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .modal-content .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: white;
+    }
+
+    #confetti div {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: yellow;
+      animation: confetti 2s ease-in-out forwards;
+    }
+
+    @keyframes confetti {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="trophy-room">
+    <div class="header">
+      <h2>
+        <span class="trophy-icon">🏆</span>
+        Legendary Conquests
+        <span class="trophy-icon">🏆</span>
+      </h2>
+      <p>Your Epic Collection of Victories</p>
+    </div>
+
+    <div class="cards">
+      <div class="card bg-purple" onclick="showModal(0)">
+        <div class="card-header">
+          <h3>Crystal Caverns</h3>
+          <div class="achievements">
+            <div class="achievement">⏱️</div>
+            <div class="achievement">⭐</div>
+          </div>
+        </div>
+        <div class="card-content">
+          <p>Mastered the treacherous crystal paths</p>
+          <div class="details">
+            <span>Score: 100%</span>
+            <span>32:15</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-yellow" onclick="showModal(1)">
+        <div class="card-header">
+          <h3>Sky Citadel</h3>
+          <div class="achievements">
+            <div class="achievement">🧭</div>
+            <div class="achievement">👑</div>
+          </div>
+        </div>
+        <div class="card-content">
+          <p>Conquered the floating fortress</p>
+          <div class="details">
+            <span>Score: 95%</span>
+            <span>45:30</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-red" onclick="showModal(2)">
+        <div class="card-header">
+          <h3>Shadow Realm</h3>
+          <div class="achievements">
+            <div class="achievement">🛡️</div>
+            <div class="achievement">🧭</div>
+          </div>
+        </div>
+        <div class="card-content">
+          <p>Survived the darkness</p>
+          <div class="details">
+            <span>Score: 88%</span>
+            <span>28:45</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✕</button>
+      <h3 id="modal-title"></h3>
+      <p id="modal-description"></p>
+      <div class="modal-details">
+        <div>
+          <p>Difficulty</p>
+          <p id="modal-difficulty"></p>
+        </div>
+        <div>
+          <p>Score</p>
+          <p id="modal-score"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="confetti"></div>
+
+  <script>
+    const maps = [
+      {
+        title: "Crystal Caverns",
+        description: "Mastered the treacherous crystal paths",
+        difficulty: "Legendary",
+        score: "100%",
+        achievements: ["⏱️", "⭐"]
+      },
+      {
+        title: "Sky Citadel",
+        description: "Conquered the floating fortress",
+        difficulty: "Epic",
+        score: "95%",
+        achievements: ["🧭", "👑"]
+      },
+      {
+        title: "Shadow Realm",
+        description: "Survived the darkness",
+        difficulty: "Nightmare",
+        score: "88%",
+        achievements: ["🛡️", "🧭"]
+      }
+    ];
+
+    function showModal(index) {
+      const modal = document.getElementById("modal");
+      const confetti = document.getElementById("confetti");
+      const map = maps[index];
+
+      document.getElementById("modal-title").innerText = map.title;
+      document.getElementById("modal-description").innerText = map.description;
+      document.getElementById("modal-difficulty").innerText = map.difficulty;
+      document.getElementById("modal-score").innerText = map.score;
+
+      modal.style.display = "flex";
+
+      confetti.innerHTML = "";
+      for (let i = 0; i < 50; i++) {
+        const div = document.createElement("div");
+        div.style.cssText = `
+          top: -10px;
+          left: ${Math.random() * 100}%;
+          animation-delay: ${Math.random()}s;
+        `;
+        confetti.appendChild(div);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
