@@ -1,0 +1,1379 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* General Styles */
+    :root {
+      --primary-color: #00ffcc;
+      --secondary-color: #ff00ff;
+      --bg-dark: #0d0d1e;
+      --text-color: #ffffff;
+      --neon-glow: 0 0 15px var(--primary-color);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      height: 100vh;
+      background: linear-gradient(45deg, #1b1b2f, #0f0f1a);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+      animation: gradientShift 15s ease-in-out infinite;
+    }
+
+    /* Animation for dynamic background */
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(45deg, #1b1b2f, #0f0f1a); }
+      50% { background: linear-gradient(45deg, #0f0f1a, #1b1b2f); }
+    }
+
+    /* Landing Page */
+    #landingPage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10,10,26,0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .animated-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20vw;
+      font-weight: bold;
+      display: flex;
+      z-index: 10;
+      opacity: 0;
+      animation: logoFadeIn 1s ease-out 1s forwards;
+    }
+
+    .animated-logo span {
+      display: inline-block;
+      opacity: 0;
+      animation: logoReveal 2s ease-in-out infinite;
+    }
+
+    .animated-logo span:first-child {
+      animation-delay: 0s;
+      color: var(--primary-color);
+    }
+
+    .animated-logo span:last-child {
+      animation-delay: 1s;
+      color: var(--secondary-color);
+    }
+
+    @keyframes logoReveal {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes logoFadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    #enterButton {
+      display: none;
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      background-color: #ff0075;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 20;
+      animation: enterButtonAnim 1s ease-out 2s forwards;
+      position: relative;
+      top: 30%;
+      box-shadow: var(--neon-glow);
+    }
+
+    @keyframes enterButtonAnim {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    #enterButton:hover { background-color: #ff4d8a; box-shadow: 0 0 20px #ff00ff; }
+
+    /* Main Content */
+    #mainContent { display: none; }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: var(--primary-color);
+      text-shadow: 0 0 10px var(--primary-color);
+    }
+
+    .team-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .team-name {
+      margin-right: 20px;
+      color: var(--text-color);
+      font-size: 1.2rem;
+    }
+
+    .score {
+      font-size: 22px;
+      color: var(--secondary-color);
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    /* Sliding Banner */
+    .sliding-banner {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      color: var(--bg-dark);
+      padding: 10px 0;
+      text-align: center;
+      overflow: hidden;
+      z-index: 15;
+      font-weight: bold;
+      font-size: 18px;
+      animation: slideBanner 10s linear infinite;
+    }
+
+    .banner-content {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    @keyframes slideBanner {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+   
+
+    .nav-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--primary-color);
+    }
+
+    /* Containers */
+    .container {
+      width: calc(80% - 80px); /* Reduced by 10% */
+      height: calc(100vh - 120px);
+      margin-top: 120px;
+      background: rgba(26, 26, 61, 0.9);
+      border-radius: 15px;
+      border: 8px solid var(--secondary-color);
+      box-shadow: 0 0 20px var(--secondary-color);
+      padding: 30px;
+      color: #fff;
+      display: none;
+      z-index: 25;
+      transition: transform 0.3s ease, padding 0.3s ease;
+      margin-left: 80px;
+    }
+ .container box-shadow: 0 0 10px rgba(107, 205, 239, 0.5), 0 0 20px rgba(107, 205, 239, 0.5), 0 0 30px rgba(107, 205, 239, 0.5);
+  animation: neonGlow 2s infinite alternate;
+}
+
+@keyframes neonGlow {
+  0% {
+    .containerbox-shadow: 0 0 10px rgba(107, 205, 239, 0.5), 0 0 20px rgba(107, 205, 239, 0.5), 0 0 30px rgba(107, 205, 239, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(107, 205, 239, 0.9), 0 0 40px rgba(107, 205, 239, 0.9), 0 0 60px rgba(107, 205, 239, 0.9);
+  }
+}
+    .container.active {
+      display: block;
+      transform: translateX(0);
+      animation: containerSlideIn 0.5s ease-out;
+    }
+
+    @keyframes containerSlideIn {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-btn {
+      background: transparent;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 10px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 5%;
+      right: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--primary-color);
+      color: var(--bg-dark);
+      box-shadow: 0 0 15px var(--primary-color);
+    }
+      /* Modified Layout Styles */
+    .header {
+      height: 10vh;
+      padding: 0 20px;
+    }
+
+    .sliding-banner {
+      height: 5vh;
+      top: 10vh;
+    }
+
+   /* Modified Side Navigation Styles */
+aside#sideNav {
+  width: 10vw;
+  left: 0;
+  top: 15vh;
+  height: 85vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly; /* Changed from center to space-evenly */
+  background: rgba(13, 13, 30, 0.7);
+  padding: 2vh 0; /* Reduced padding */
+}
+
+.nav-icon {
+  width: 6vw;
+  height: 6vw;
+  max-width: 60px; /* Added max-width to prevent icons from being too large */
+  max-height: 60px; /* Added max-height to prevent icons from being too large */
+  min-width: 40px; /* Added min-width to prevent icons from being too small */
+  min-height: 40px; /* Added min-height to prevent icons from being too small */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure icons are properly sized */
+.nav-icon i {
+  font-size: calc(min(2vw + 10px, 24px)); /* Responsive font size with minimum and maximum values */
+}
+
+    .container {
+      width: 88vw;
+      height: 82vh;
+      margin-left: 10vw;
+      margin-top: 15vh;
+      overflow-y: auto;
+      padding: 2vw;
+    }
+
+    /* New Profile Styles */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .profile-card {
+      background: rgba(0, 255, 204, 0.1);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(0, 255, 204, 0.1));
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .stat-value {
+      font-size: 2em;
+      color: var(--primary-color);
+      text-shadow: 0 0 10px var(--primary-color);
+    }
+
+    /* New Settings Styles */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .setting-toggle {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: var(--bg-dark);
+      border-radius: 15px;
+      border: 2px solid var(--primary-color);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .setting-toggle::before {
+      content: '';
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+      transition: 0.3s;
+    }
+
+    .setting-toggle.active {
+      background: var(--primary-color);
+      border-color: var(--secondary-color);
+    }
+
+    .setting-toggle.active::before {
+      background: var(--secondary-color);
+      transform: translateX(30px);
+    }
+
+    .slider-container {
+      padding: 10px;
+    }
+
+    .cyber-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--primary-color);
+      outline: none;
+      border-radius: 2px;
+    }
+
+    .cyber-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--secondary-color);
+    }
+    /* Animated Background Symbols */
+    .background-symbols {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .background-symbol {
+      position: absolute;
+      font-size: 2rem;
+      color: rgba(255, 255, 255, 0.1);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      animation: pulse 3s infinite ease-in-out, colorShift 5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    @keyframes colorShift {
+      0%, 100% { text-shadow: 0 0 10px var(--color); color: var(--color); }
+      25% { text-shadow: 0 0 15px var(--color-alt1); color: var(--color-alt1); }
+      50% { text-shadow: 0 0 20px var(--color-alt2); color: var(--color-alt2); }
+      75% { text-shadow: 0 0 25px var(--color-alt3); color: var(--color-alt3); }
+    }
+
+    /* Center Content */
+    .animated-logo {
+      position: relative;
+      font-size: 10vw;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+      z-index: 10;
+    }
+    
+    /* Animation for dynamic background */
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(45deg, #1b1b2f, #0f0f1a); }
+      50% { background: linear-gradient(45deg, #0f0f1a, #1b1b2f); }
+    }
+    /* Challenges Section */
+.challenges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .challenges-header h1 {
+            font-size: 2.5rem;
+            color: #ff4081;
+            text-shadow: 0 0 10px #ff4081;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ff4081;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .challenge-card {
+            background: rgba(0, 255, 204, 0.1);
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .challenge-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 204, 0.1));
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .challenge-card h3 {
+            color: #ff9800;
+            margin-bottom: 10px;
+        }
+        .challenge-card p {
+            margin-bottom: 15px;
+        }
+        .claim-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .claim-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .rounds {
+            margin-top: 30px;
+        }
+        .round {
+            margin-bottom: 20px;
+        }
+        .round h2 {
+            color: #2196f3;
+            margin-bottom: 10px;
+        }
+        .round-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        } body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .challenges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .challenges-header h1 {
+            font-size: 3rem;
+            color: #ff4081;
+            text-shadow: 0 0 20px #ff4081, 0 0 40px #ff4081;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ff4081;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .challenge-card {
+            background: rgba(0, 255, 204, 0.2);
+            border: 2px solid #00ffcc;
+            border-radius: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .challenge-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 6px 20px rgba(0, 255, 204, 0.5);
+        }
+        .challenge-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.4s;
+        }
+        .challenge-card:hover img {
+            transform: scale(1.05);
+        }
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 204, 0.3));
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .challenge-card h3 {
+            color: #ff9800;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        .challenge-card p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .claim-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.4s, transform 0.3s;
+            font-size: 1rem;
+        }
+        .claim-btn:hover:not(:disabled) {
+            background-color: #45a049;
+            transform: scale(1.1);
+        }
+        .claim-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 10px;
+            background: #4caf50;
+            transition: width 0.4s;
+        }
+        .rounds {
+            margin-top: 30px;
+        }
+        .round {
+            margin-bottom: 40px;
+        }
+        .round h2 {
+            color: #2196f3;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #2196f3, 0 0 20px #2196f3;
+            font-size: 2rem;
+        }
+        .round-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .neon {
+            animation: neonGlow 1.5s infinite alternate;
+        }
+        @keyframes neonGlow {
+            0% {
+                text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081;
+            }
+            100% {
+                text-shadow: 0 0 30px #ff4081, 0 0 60px #ff4081;
+            }
+        }
+  </style>
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landingPage" style="display: none;">
+     <div class="background-symbols"><div class="background-symbol" style="left: 87.604%; top: 93.5151%; font-size: 3.67541rem; animation-duration: 5.69496s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 11.1556%; top: 9.23348%; font-size: 1.9011rem; animation-duration: 5.10357s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 53.3784%; top: 67.903%; font-size: 2.49291rem; animation-duration: 4.50809s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 25.2922%; top: 54.0034%; font-size: 3.99532rem; animation-duration: 4.86605s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 91.6963%; top: 84.6144%; font-size: 3.21812rem; animation-duration: 5.30153s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 0.783588%; top: 70.238%; font-size: 2.64335rem; animation-duration: 5.28424s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 28.1287%; top: 25.3561%; font-size: 2.53077rem; animation-duration: 5.67293s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 16.8874%; top: 9.89129%; font-size: 1.82136rem; animation-duration: 5.90571s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 10.5023%; top: 24.5105%; font-size: 2.60537rem; animation-duration: 3.21322s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 63.988%; top: 13.0701%; font-size: 1.27203rem; animation-duration: 3.00526s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 14.6182%; top: 79.6415%; font-size: 3.26922rem; animation-duration: 4.01111s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 72.9312%; top: 88.3713%; font-size: 1.22333rem; animation-duration: 4.19099s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 64.5455%; top: 81.7025%; font-size: 3.00332rem; animation-duration: 5.49463s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 32.7234%; top: 72.6034%; font-size: 1.75259rem; animation-duration: 5.18291s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 2.29035%; top: 29.0295%; font-size: 1.71159rem; animation-duration: 5.22946s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 69.9157%; top: 38.5208%; font-size: 2.33991rem; animation-duration: 5.35399s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 34.8517%; top: 15.2172%; font-size: 1.81955rem; animation-duration: 5.01578s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 20.5511%; top: 81.6772%; font-size: 1.26208rem; animation-duration: 5.89551s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 51.3111%; top: 10.2134%; font-size: 1.22917rem; animation-duration: 3.92034s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 78.7323%; top: 43.7069%; font-size: 3.53097rem; animation-duration: 4.91346s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 12.1668%; top: 83.6181%; font-size: 2.44723rem; animation-duration: 5.08861s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 37.8124%; top: 29.4589%; font-size: 3.78647rem; animation-duration: 4.34815s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 19.3128%; top: 60.4627%; font-size: 2.3895rem; animation-duration: 3.95614s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 62.9845%; top: 45.9387%; font-size: 3.60183rem; animation-duration: 4.9852s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 75.5419%; top: 82.5017%; font-size: 2.91806rem; animation-duration: 4.76449s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 35.9612%; top: 80.4573%; font-size: 3.93493rem; animation-duration: 3.78587s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 2.9144%; top: 2.90504%; font-size: 1.13502rem; animation-duration: 5.63351s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 2.48759%; top: 68.5515%; font-size: 2.86999rem; animation-duration: 3.47867s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 62.4623%; top: 53.8658%; font-size: 2.43655rem; animation-duration: 4.77837s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 36.8547%; top: 6.8791%; font-size: 3.33262rem; animation-duration: 4.79264s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 20.8964%; top: 37.2416%; font-size: 3.95596rem; animation-duration: 4.64915s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 72.3901%; top: 37.8555%; font-size: 1.04275rem; animation-duration: 3.74223s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 55.3258%; top: 94.2143%; font-size: 2.45651rem; animation-duration: 4.67231s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 75.0421%; top: 65.4722%; font-size: 1.95554rem; animation-duration: 3.43792s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 90.0431%; top: 43.8825%; font-size: 1.26843rem; animation-duration: 4.88693s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 21.8186%; top: 69.1178%; font-size: 2.90852rem; animation-duration: 4.47194s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 6.07482%; top: 29.318%; font-size: 1.51303rem; animation-duration: 4.72485s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 30.5315%; top: 90.5009%; font-size: 1.78997rem; animation-duration: 4.16291s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 23.9788%; top: 42.7463%; font-size: 2.79693rem; animation-duration: 3.45116s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 45.4829%; top: 57.7046%; font-size: 1.26187rem; animation-duration: 5.88219s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 60.9974%; top: 1.15183%; font-size: 3.01328rem; animation-duration: 3.52916s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 2.06463%; top: 6.66263%; font-size: 3.09788rem; animation-duration: 4.3109s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 94.9849%; top: 45.5305%; font-size: 2.92378rem; animation-duration: 3.33963s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 12.0222%; top: 74.7837%; font-size: 1.09507rem; animation-duration: 4.76493s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 98.2001%; top: 23.3353%; font-size: 1.17587rem; animation-duration: 5.49164s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 28.8433%; top: 2.46162%; font-size: 2.19995rem; animation-duration: 5.86515s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 56.8273%; top: 5.2767%; font-size: 3.21948rem; animation-duration: 5.79741s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 29.2536%; top: 51.6505%; font-size: 3.80159rem; animation-duration: 3.63235s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 83.2651%; top: 42.6401%; font-size: 1.94979rem; animation-duration: 4.84917s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 36.2181%; top: 18.59%; font-size: 2.84841rem; animation-duration: 5.82218s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 68.4428%; top: 52.8332%; font-size: 2.46101rem; animation-duration: 4.78461s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 64.5065%; top: 17.7556%; font-size: 2.87206rem; animation-duration: 3.26208s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 9.25372%; top: 74.0348%; font-size: 3.26089rem; animation-duration: 5.3439s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 2.16636%; top: 13.1788%; font-size: 1.73594rem; animation-duration: 5.27161s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 46.2685%; top: 23.5225%; font-size: 1.40152rem; animation-duration: 3.82325s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 45.1391%; top: 12.1299%; font-size: 3.52061rem; animation-duration: 3.57057s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 36.8457%; top: 53.0431%; font-size: 2.84582rem; animation-duration: 3.53229s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 25.2555%; top: 32.6143%; font-size: 2.65998rem; animation-duration: 3.45365s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 68.3432%; top: 51.1888%; font-size: 1.1896rem; animation-duration: 5.5358s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 55.2692%; top: 23.6638%; font-size: 1.95112rem; animation-duration: 5.699s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 32.2879%; top: 5.40843%; font-size: 1.962rem; animation-duration: 4.40677s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 87.4758%; top: 3.714%; font-size: 1.51082rem; animation-duration: 4.01655s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 67.9728%; top: 3.70296%; font-size: 3.43326rem; animation-duration: 5.88346s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 12.7342%; top: 51.6572%; font-size: 1.85899rem; animation-duration: 4.75568s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 32.3502%; top: 96.3399%; font-size: 2.35874rem; animation-duration: 3.94922s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 60.4187%; top: 66.6134%; font-size: 2.34613rem; animation-duration: 4.17037s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 67.3837%; top: 15.3053%; font-size: 1.57485rem; animation-duration: 3.51677s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 73.8445%; top: 36.9548%; font-size: 2.6902rem; animation-duration: 5.43197s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 41.2325%; top: 7.94439%; font-size: 2.08265rem; animation-duration: 4.68245s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 71.3156%; top: 70.0702%; font-size: 2.12043rem; animation-duration: 4.74111s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 69.9259%; top: 44.0733%; font-size: 3.44026rem; animation-duration: 4.21069s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 5.80323%; top: 97.0077%; font-size: 2.44122rem; animation-duration: 4.33268s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 96.6065%; top: 98.8532%; font-size: 3.52411rem; animation-duration: 3.57735s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 58.8556%; top: 57.1445%; font-size: 1.17879rem; animation-duration: 4.07098s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 65.0377%; top: 18.6462%; font-size: 1.14055rem; animation-duration: 5.87004s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♂</div><div class="background-symbol" style="left: 82.1785%; top: 39.287%; font-size: 1.89934rem; animation-duration: 5.63631s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 13.8304%; top: 24.3627%; font-size: 1.73765rem; animation-duration: 4.49754s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 60.1534%; top: 9.03275%; font-size: 1.06158rem; animation-duration: 3.93198s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 77.822%; top: 67.8269%; font-size: 3.60827rem; animation-duration: 5.42008s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 1.64969%; top: 41.1727%; font-size: 3.43737rem; animation-duration: 4.91727s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 9.76044%; top: 44.6113%; font-size: 1.04322rem; animation-duration: 3.58734s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 82.5756%; top: 51.2747%; font-size: 1.50595rem; animation-duration: 3.38247s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 67.3945%; top: 3.42732%; font-size: 3.3084rem; animation-duration: 4.47455s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 12.7569%; top: 92.4547%; font-size: 2.10222rem; animation-duration: 4.74135s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 41.3875%; top: 96.1704%; font-size: 1.10327rem; animation-duration: 4.42355s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 56.0099%; top: 79.9734%; font-size: 1.54707rem; animation-duration: 3.55888s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 15.049%; top: 68.9262%; font-size: 1.30342rem; animation-duration: 3.13675s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 46.197%; top: 16.077%; font-size: 2.65072rem; animation-duration: 5.96649s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 5.17649%; top: 91.3891%; font-size: 2.91771rem; animation-duration: 5.54989s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 57.8165%; top: 73.2001%; font-size: 3.83208rem; animation-duration: 3.78743s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 1.94849%; top: 74.8323%; font-size: 1.73129rem; animation-duration: 3.64459s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♂</div><div class="background-symbol" style="left: 73.9264%; top: 44.6581%; font-size: 2.07504rem; animation-duration: 4.59893s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 89.0725%; top: 90.3086%; font-size: 3.99306rem; animation-duration: 3.71433s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 94.7088%; top: 56.7412%; font-size: 3.92858rem; animation-duration: 3.02623s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 67.7945%; top: 12.2364%; font-size: 2.6821rem; animation-duration: 3.76963s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 65.0325%; top: 15.789%; font-size: 1.37879rem; animation-duration: 3.56626s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 10.4811%; top: 14.28%; font-size: 1.68265rem; animation-duration: 4.71219s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 68.6111%; top: 92.1051%; font-size: 3.35868rem; animation-duration: 5.21615s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 56.162%; top: 69.0122%; font-size: 2.14215rem; animation-duration: 4.55348s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 12.1929%; top: 2.9012%; font-size: 2.87648rem; animation-duration: 3.82589s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 52.4265%; top: 28.7394%; font-size: 2.25598rem; animation-duration: 5.73108s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 41.7481%; top: 27.8839%; font-size: 3.70624rem; animation-duration: 4.66223s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♀</div><div class="background-symbol" style="left: 49.6382%; top: 13.2536%; font-size: 1.80014rem; animation-duration: 3.0193s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 29.3616%; top: 69.6255%; font-size: 1.64493rem; animation-duration: 5.61579s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 80.01%; top: 10.5044%; font-size: 1.27817rem; animation-duration: 5.32929s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 80.8882%; top: 39.5505%; font-size: 3.84648rem; animation-duration: 5.62743s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 30.8866%; top: 68.5064%; font-size: 3.06529rem; animation-duration: 5.91605s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 30.9996%; top: 69.3143%; font-size: 2.28404rem; animation-duration: 5.16214s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 31.3476%; top: 17.0854%; font-size: 3.06176rem; animation-duration: 5.68253s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 88.0924%; top: 53.6032%; font-size: 3.12819rem; animation-duration: 5.47136s; --color: #ff0075; --color-alt1: #0075ff; --color-alt2: #00ffcc; --color-alt3: #ff00ff;">♀</div><div class="background-symbol" style="left: 99.012%; top: 6.9318%; font-size: 3.14538rem; animation-duration: 3.4487s; --color: #0075ff; --color-alt1: #00ffcc; --color-alt2: #ff00ff; --color-alt3: #ffcc00;">♂</div><div class="background-symbol" style="left: 82.2561%; top: 93.7118%; font-size: 3.51863rem; animation-duration: 5.21592s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 94.8341%; top: 28.4707%; font-size: 2.79267rem; animation-duration: 4.53217s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 6.48109%; top: 5.90929%; font-size: 2.06903rem; animation-duration: 4.42711s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 91.9639%; top: 47.3491%; font-size: 2.75189rem; animation-duration: 5.64178s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 74.2884%; top: 96.7724%; font-size: 3.14326rem; animation-duration: 3.58677s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 8.59402%; top: 26.2067%; font-size: 1.50403rem; animation-duration: 5.60388s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 85.0338%; top: 16.9612%; font-size: 1.5133rem; animation-duration: 5.60064s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 90.8696%; top: 60.8891%; font-size: 3.59891rem; animation-duration: 3.31935s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 93.7559%; top: 93.4605%; font-size: 1.97535rem; animation-duration: 3.03691s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 93.8362%; top: 48.6027%; font-size: 3.13875rem; animation-duration: 5.26573s; --color: #00ffcc; --color-alt1: #ff00ff; --color-alt2: #ffcc00; --color-alt3: #ff0075;">♀</div><div class="background-symbol" style="left: 71.3526%; top: 68.5777%; font-size: 2.93778rem; animation-duration: 3.35417s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 98.3925%; top: 82.9242%; font-size: 2.33658rem; animation-duration: 4.21057s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 91.0749%; top: 35.738%; font-size: 3.62418rem; animation-duration: 4.06022s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 2.79886%; top: 4.62823%; font-size: 1.62985rem; animation-duration: 5.74054s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 91.9855%; top: 92.3154%; font-size: 1.02507rem; animation-duration: 3.88965s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♂</div><div class="background-symbol" style="left: 79.5555%; top: 58.8576%; font-size: 3.45117rem; animation-duration: 5.19691s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♂</div><div class="background-symbol" style="left: 68.1016%; top: 96.0834%; font-size: 2.12292rem; animation-duration: 3.248s; --color: #ffcc00; --color-alt1: #ff0075; --color-alt2: #0075ff; --color-alt3: #00ffcc;">♀</div><div class="background-symbol" style="left: 52.5872%; top: 9.43184%; font-size: 2.68321rem; animation-duration: 3.67194s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div><div class="background-symbol" style="left: 27.37%; top: 7.16521%; font-size: 1.4127rem; animation-duration: 4.13942s; --color: #ff00ff; --color-alt1: #ffcc00; --color-alt2: #ff0075; --color-alt3: #0075ff;">♀</div></div>
+  <div class="animated-logo">
+      <span>W</span>
+      <span>E</span>
+    </div>
+    <button id="enterButton" style="display: block;">Enter</button>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent" style="display: block;">
+    <header class="header">
+      <div class="team-section">
+        <div class="team-name">The Savages</div>
+      </div>
+      <div class="logo">WE</div>
+      <div class="score">Score: 35,470</div>
+    </header>
+
+    <div class="sliding-banner">
+      <div class="banner-content">WE: The Ultimate Adult Game for Pushing Boundaries</div>
+    </div>
+
+    <!-- Side Navigation -->
+    <aside id="sideNav">
+      <button class="nav-icon" data-target="profile"><i class="fas fa-user"></i></button>
+      <button class="nav-icon" data-target="settings"><i class="fas fa-cogs"></i></button>
+      <button class="nav-icon" data-target="game"><i class="fas fa-gamepad"></i></button>
+      <button class="nav-icon" data-target="challenges"><i class="fas fa-map-marker-alt"></i></button>
+    </aside>
+
+    <!-- Containers -->
+    <main>
+      <div class="container" id="profile">
+    <h2>Agent Profile</h2>
+    <div class="profile-grid">
+      <div class="profile-card">
+        <h3>Combat Stats</h3>
+        <div class="stat-value">Level 42</div>
+        <p>Specialization: Netrunner</p>
+        <p>Reputation: Legendary</p>
+      </div>
+      <div class="profile-card">
+        <h3>Achievement Progress</h3>
+        <div class="stat-value">87%</div>
+        <p>Missions Completed: 156</p>
+        <p>Critical Successes: 73</p>
+      </div>
+      <div class="profile-card">
+        <h3>Neural Implants</h3>
+        <div class="stat-value">6/8</div>
+        <p>Active Mods: Cyberdeck Mk4</p>
+        <p>Next Upgrade Available</p>
+      </div>
+      <div class="profile-card">
+        <h3>Network Status</h3>
+        <div class="stat-value">Connected</div>
+        <p>Ping: 12ms</p>
+        <p>Security Level: Maximum</p>
+      </div>
+    </div>
+    <button class="close-btn">X</button>
+  </div>
+
+  <div class="container" id="settings">
+    <h2>System Configuration</h2>
+    <div class="settings-grid">
+      <div class="setting-card">
+        <h3>Neural Interface</h3>
+        <div class="setting-toggle"></div>
+        <div class="slider-container">
+          <p>Sensitivity</p>
+          <input type="range" class="cyber-slider" min="0" max="100" value="75">
+        </div>
+      </div>
+      <div class="setting-card">
+        <h3>Augmented Reality</h3>
+        <div class="setting-toggle active"></div>
+        <div class="slider-container">
+          <p>Opacity</p>
+          <input type="range" class="cyber-slider" min="0" max="100" value="90">
+        </div>
+      </div>
+      <div class="setting-card">
+        <h3>Security Protocols</h3>
+        <div class="setting-toggle active"></div>
+        <div class="slider-container">
+          <p>Firewall Strength</p>
+          <input type="range" class="cyber-slider" min="0" max="100" value="100">
+        </div>
+      </div>
+    </div>
+    <button class="close-btn">X</button>
+  </div>
+  
+      <div class="container" id="game">
+        <h2>Game</h2>
+        <button class="close-btn">X</button>
+      </div>
+      
+          <div class="container active" id="challenges">
+        <div class="challenges-header">
+            <h1 class="neon">Challenges</h1>
+            <button class="close-btn">✕</button>
+        </div>
+
+        <div class="rounds">
+            <!-- Loop through rounds -->
+            
+        <div class="rounds">
+            <!-- Round 1 -->
+            <div class="round">
+                <h2>Round 1</h2>
+                <div class="round-grid">
+                    <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 1</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 2</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 3</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 4</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 5</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 6</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 7</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 8</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 9</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 10</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Round 2 -->
+            <div class="round">
+                <h2>Round 2</h2>
+                <div class="round-grid">
+                    &lt;<div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 1</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 2</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 3</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 4</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 5</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 6</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 7</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 8</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 9</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 10</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Round 3 -->
+            <div class="round">
+                <h2>Round 3</h2>
+                <div class="round-grid">
+                    <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 1</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 2</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 3</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 4</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 5</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 6</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 7</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 8</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 9</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 10</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Round 4 -->
+            <div class="round">
+                <h2>Round 4</h2>
+                <div class="round-grid">
+                    <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 1</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 2</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                    
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 3</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 4</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 5</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 6</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 7</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 8</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 9</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+
+                     <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 10</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                   
+        
+
+
+
+  <script>
+ 
+  </script>
+
+
+
+
+
+
+
+
+    
+        
+    </style>
+
+
+    <div class="container active" id="challenges">
+        <div class="challenges-header">
+            <h1 class="neon">Challenges</h1>
+            <button class="close-btn">✕</button>
+        </div>
+
+        <div class="rounds">
+            <!-- Loop through rounds -->
+            <div class="round">
+                <h2>Round 1</h2>
+                <div class="round-grid">
+                    <!-- Cards for Round 1 -->
+                    <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 1</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                    <div class="challenge-card">
+                        <img src="https://via.placeholder.com/250" alt="Challenge Image">
+                        <h3>Challenge 2</h3>
+                        <p>Progress: <span class="progress-text">10</span>/10</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <button class="claim-btn">Claim Reward</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+           document.addEventListener("DOMContentLoaded", () => {
+      const backgroundSymbols = document.querySelector('.background-symbols');
+      const symbolCount = 130;
+      const symbols = ['\u2642', '\u2640'];
+      const neonColors = ['#00ffcc', '#ff00ff', '#ffcc00', '#ff0075', '#0075ff'];
+
+      for (let i = 0; i < symbolCount; i++) {
+        const symbolElement = document.createElement('div');
+        symbolElement.classList.add('background-symbol');
+        symbolElement.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        symbolElement.style.left = `${Math.random() * 100}%`;
+        symbolElement.style.top = `${Math.random() * 100}%`;
+        const randomSize = 1 + Math.random() * 3;
+        symbolElement.style.fontSize = `${randomSize}rem`;
+        symbolElement.style.animationDuration = `${3 + Math.random() * 3}s`;
+        const colorIndex = Math.floor(Math.random() * neonColors.length);
+        symbolElement.style.setProperty('--color', neonColors[colorIndex]);
+        symbolElement.style.setProperty('--color-alt1', neonColors[(colorIndex + 1) % neonColors.length]);
+        symbolElement.style.setProperty('--color-alt2', neonColors[(colorIndex + 2) % neonColors.length]);
+        symbolElement.style.setProperty('--color-alt3', neonColors[(colorIndex + 3) % neonColors.length]);
+        backgroundSymbols.appendChild(symbolElement);
+      }
+
+      const landingPage = document.getElementById("landingPage");
+      const enterButton = document.getElementById("enterButton");
+      const mainContent = document.getElementById("mainContent");
+      const navIcons = document.querySelectorAll(".nav-icon");
+      const containers = document.querySelectorAll(".container");
+      const closeBtns = document.querySelectorAll(".close-btn");
+
+      setTimeout(() => { enterButton.style.display = "block"; }, 2000);
+
+      enterButton.addEventListener("click", () => {
+        landingPage.style.display = "none";
+        mainContent.style.display = "block";
+      });
+
+      navIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+          const target = icon.getAttribute("data-target");
+          containers.forEach(container => {
+            container.classList.remove("active");
+            if (container.id === target) {
+              container.classList.add("active");
+            }
+          });
+        });
+      });
+
+      closeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.parentElement.classList.remove("active");
+        });
+      });
+    });   document.querySelector('.close-btn').addEventListener('click', () => {
+            document.getElementById('challenges').style.display = 'none';
+        });
+
+        // Real-time progress updates
+        document.querySelectorAll('.challenge-card').forEach(card => {
+            const progressText = card.querySelector('.progress-text');
+            const progressFill = card.querySelector('.progress-fill');
+            const claimBtn = card.querySelector('.claim-btn');
+
+            let progress = parseInt(progressText.textContent);
+            const total = 10;
+
+            const interval = setInterval(() => {
+                if (progress < total) {
+                    progress++;
+                    progressText.textContent = progress;
+                    progressFill.style.width = `${(progress / total) * 100}%`;
+                } else {
+                    claimBtn.disabled = false;
+                    clearInterval(interval);
+                }
+            }, 500);
+        });
+    </script>
+
+
+
+
+
+</body></html>
