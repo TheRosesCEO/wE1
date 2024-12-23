@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Gaming Profile</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --neon-magenta: #ff10f0;
+      --neon-cyan: #00feff;
+      --neon-yellow: #ffee00;
+      --accent-purple: #b829ff;
+      --dark-bg: #0b0b14;
+      --darker-bg: #070709;
+      --grid-color: #1e213f;
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--darker-bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+      background-image: 
+        linear-gradient(0deg, transparent 24%, 
+          rgba(32, 255, 255, 0.05) 25%,
+          rgba(32, 255, 255, 0.05) 26%, 
+          transparent 27%, transparent 74%,
+          rgba(32, 255, 255, 0.05) 75%,
+          rgba(32, 255, 255, 0.05) 76%, transparent 77%),
+        linear-gradient(90deg, transparent 24%, 
+          rgba(32, 255, 255, 0.05) 25%,
+          rgba(32, 255, 255, 0.05) 26%, 
+          transparent 27%, transparent 74%,
+          rgba(32, 255, 255, 0.05) 75%,
+          rgba(32, 255, 255, 0.05) 76%, transparent 77%);
+      background-size: 50px 50px;
+    }
+
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--dark-bg);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 254, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        var(--neon-magenta), 
+        var(--neon-cyan), 
+        var(--neon-yellow),
+        var(--accent-purple));
+    }
+
+    .profile-header {
+      background: linear-gradient(180deg, 
+        rgba(255, 16, 240, 0.1),
+        rgba(0, 254, 255, 0.05));
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      border-bottom: 1px solid var(--neon-cyan);
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border: 2px solid var(--neon-magenta);
+      position: relative;
+      filter: saturate(1.2) contrast(1.1);
+    }
+
+    .profile-info h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px var(--neon-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    #status {
+      color: var(--neon-yellow);
+      font-size: 1.1em;
+    }
+
+    .btn {
+      background: transparent;
+      border: 2px solid var(--neon-magenta);
+      color: var(--neon-magenta);
+      padding: 0.7rem 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 16, 240, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      background: var(--neon-magenta);
+      color: var(--darker-bg);
+      box-shadow: 0 0 20px var(--neon-magenta);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+      background: var(--grid-color);
+    }
+
+    .stat-card {
+      background: var(--darker-bg);
+      border: 1px solid var(--neon-cyan);
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card h3 {
+      color: var(--neon-yellow);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card p {
+      color: var(--neon-cyan);
+      font-size: 2rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--darker-bg);
+      border: 1px solid var(--neon-magenta);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-magenta), var(--neon-cyan));
+      width: 0%;
+      transition: width 1s ease;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      background: var(--dark-bg);
+    }
+
+    .section {
+      background: var(--darker-bg);
+      border: 1px solid var(--neon-cyan);
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .section h2 {
+      color: var(--neon-yellow);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .friends-list li, .achievements li {
+      background: rgba(0, 254, 255, 0.05);
+      border: 1px solid var(--neon-cyan);
+      margin-bottom: 0.5rem;
+      padding: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-history {
+      background: var(--darker-bg);
+      border: 1px solid var(--neon-cyan);
+      height: 200px;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .message {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      position: relative;
+    }
+
+    .message.sent {
+      background: rgba(255, 16, 240, 0.1);
+      border: 1px solid var(--neon-magenta);
+      margin-left: 20%;
+    }
+
+    .message.received {
+      background: rgba(0, 254, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      margin-right: 20%;
+    }
+
+    .message-input {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .message-input input {
+      flex: 1;
+      background: var(--darker-bg);
+      border: 1px solid var(--neon-cyan);
+      color: var(--text);
+      padding: 0.75rem;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .message-input input:focus {
+      outline: none;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--darker-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon-cyan);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--neon-magenta);
+    }
+
+    @media (max-width: 768px) {
+      .profile-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .profile-pic-container {
+        margin: 0 auto;
+      }
+
+      .profile-actions {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HTML structure remains the same -->
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-pic-container">
+        <img class="profile-pic" src="/api/placeholder/150/150" alt="Profile Picture">
+      </div>
+      <div class="profile-info">
+        <h1 id="username">ProGamer42</h1>
+        <p id="status">🟢 Online - Playing Apex Legends</p>
+      </div>
+      <div class="profile-actions">
+        <button class="btn" onclick="editProfile()"><i class="fas fa-edit"></i> Edit Profile</button>
+        <button class="btn"><i class="fas fa-user-plus"></i> Add Friend</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3><i class="fas fa-crosshairs"></i> Kills</h3>
+        <p id="kills">2,450</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+      </div>
+      <div class="stat-card">
+        <h3><i class="fas fa-trophy"></i> Wins</h3>
+        <p id="wins">150</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+      </div>
+      <div class="stat-card">
+        <h3><i class="fas fa-bullseye"></i> Accuracy</h3>
+        <p id="accuracy">67%</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 67%"></div></div>
+      </div>
+      <div class="stat-card">
+        <h3><i class="fas fa-clock"></i> Hours</h3>
+        <p id="hours">320</p>
+        <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="section">
+        <h2><i class="fas fa-user"></i> About Me</h2>
+        <p>Hi, I'm ProGamer42, a competitive player with a love for FPS games. My playstyle is aggressive, and I specialize in sniper gameplay. Currently grinding ranked in Apex Legends and hosting weekly community tournaments.</p>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-trophy"></i> Achievements</h2>
+        <ul class="achievements">
+          <li>
+            🏆 Top 10 in "Winter Clash Tournament"
+            <span class="badge">Elite</span>
+          </li>
+          <li>
+            🎯 "Sniper King" Trophy
+            <span class="badge">Rare</span>
+          </li>
+          <li>
+            👑 "Battle Royale Mastery"
+            <span class="badge">Legendary</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-users"></i> Friends</h2>
+        <ul class="friends-list" id="friends">
+          <li>
+            <span>🎮 PixelWarrior</span>
+            <button class="btn">Message</button>
+          </li>
+          <li>
+            <span>🎮 NinjaStrike</span>
+            <button class="btn">Message</button>
+          </li>
+          <li>
+            <span>🎮 VoidHunter</span>
+            <button class="btn">Message</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2><i class="fas fa-comments"></i> Chat</h2>
+        <div class="chat-container">
+          <div class="chat-history" id="chatHistory">
+            <div class="message received">
+              <strong>PixelWarrior:</strong> Ready for tonight's tournament?
+            </div>
+            <div class="message sent">
+              <strong>You:</strong> Yeah, let's warm up in an hour!
+            </div>
+          </div>
+          <div class="message-input">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button class="btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript remains the same
+    function editProfile() {
+      const newUsername = prompt("Enter new username:", document.getElementById("username").textContent);
+      if (newUsername) {
+        document.getElementById("username").textContent = newUsername;
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const message = input.value.trim();
+      
+      if (message) {
+        const chatHistory = document.getElementById("chatHistory");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "message sent";
+        messageDiv.innerHTML = `<strong>You:</strong> ${message}`;
+        chatHistory.appendChild(messageDiv);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        input.value = "";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".progress-fill").forEach
