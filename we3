@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* General Styles */
+    :root {
+      --primary-color: #00ffcc;
+      --secondary-color: #ff00ff;
+      --bg-dark: #0d0d1e;
+      --text-color: #ffffff;
+      --neon-glow: 0 0 15px var(--primary-color);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      height: 100vh;
+      background: linear-gradient(45deg, #1b1b2f, #0f0f1a);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+      animation: gradientShift 15s ease-in-out infinite;
+    }
+
+    /* Animation for dynamic background */
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(45deg, #1b1b2f, #0f0f1a); }
+      50% { background: linear-gradient(45deg, #0f0f1a, #1b1b2f); }
+    }
+/* Animated Background Symbols */
+    .background-symbols {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .background-symbol {
+      position: absolute;
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.2);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        color: rgba(255, 255, 255, 0.2);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+      50% {
+        transform: scale(1.2);
+        color: rgba(255, 255, 255, 0.5);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+    }
+    
+    /* Landing Page */
+    #landingPage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(10,10,26,0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      overflow: hidden;
+    }
+
+     
+
+    .animated-logo {
+      position: relative;
+      font-size: 10vw;
+      font-weight: bold;
+      display: flex;
+      z-index: 10;
+      color: var(--primary-color);
+    }
+
+    .animated-logo span {
+      display: inline-block;
+      opacity: 0;
+      animation: logoReveal 2s ease-in-out infinite;
+    }
+
+    .animated-logo span:first-child {
+      animation-delay: 0s;
+      color: var(--primary-color);
+    }
+
+    .animated-logo span:last-child {
+      animation-delay: 1s;
+      color: var(--secondary-color);
+    }
+
+    @keyframes logoReveal {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    #enterButton {
+      display: none;
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      background-color: #ff0075;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 20;
+      animation: enterButtonAnim 1s ease-out 2s forwards;
+      position: relative;
+      top: 30%;
+      box-shadow: var(--neon-glow);
+    }
+
+    @keyframes enterButtonAnim {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    #enterButton:hover { background-color: #ff4d8a; box-shadow: 0 0 20px #ff00ff; }
+
+    /* Main Content */
+    #mainContent { display: none; }
+  </style>
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landingPage">
+    <div class="background-symbols"></div>
+    <div class="animated-logo">
+      <span>W</span>
+      <span>E</span>
+    </div>
+    <button id="enterButton">Enter</button>
+  </div>
+
+  <div id="mainContent">
+    <!-- Main content goes here -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const landingPage = document.getElementById("landingPage");
+      const enterButton = document.getElementById("enterButton");
+      const mainContent = document.getElementById("mainContent");
+      const backgroundSymbols = document.querySelector('.background-symbols');
+
+      // Add male and female symbols to the background
+      const symbolCount = 50;
+      const symbols = ['\u2642', '\u2640']; // Male and female symbols
+
+      for (let i = 0; i < symbolCount; i++) {
+        const symbolElement = document.createElement('div');
+        symbolElement.classList.add('background-symbol');
+        symbolElement.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        symbolElement.style.left = `${Math.random() * 100}%`;
+        symbolElement.style.top = `${Math.random() * 100}%`;
+        symbolElement.style.animationDuration = `${3 + Math.random() * 2}s`;
+        symbolElement.style.fontSize = `${2 + Math.random() * 4}rem`;
+        backgroundSymbols.appendChild(symbolElement);
+      }
+
+      // Show the "Enter" button after 2 seconds
+      setTimeout(() => { enterButton.style.display = "block"; }, 2000);
+
+      // On "Enter" button click, hide the landing page and show the main content
+      enterButton.addEventListener("click", () => {
+        landingPage.style.display = "none";
+        mainContent.style.display = "block";
+      });
+    });
+  </script>
+</body>
+</html>
